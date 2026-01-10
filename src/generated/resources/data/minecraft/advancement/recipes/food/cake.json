@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cake_icing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "cakeworks:cake_icing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:cake"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cake_icing"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:cake"
+    ]
+  }
+}

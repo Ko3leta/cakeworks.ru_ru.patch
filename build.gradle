@@ -1,0 +1,144 @@
+plugins {
+    id "java-library"
+    id "idea"
+    id "maven-publish"
+    id 'net.neoforged.moddev' version '2.0.115'
+}
+
+version = "${project.minecraft_version}-${project.mod_version}"
+group = "com.teamharmony.cakeworks"
+
+base {
+    archivesName = project.mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neoforge
+
+    runs {
+        configureEach {
+            systemProperty "forge.logging.markers", "REGISTRIES"
+            systemProperty "forge.logging.console.level", "debug"
+        }
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+        data {
+            data()
+            programArguments.addAll("--mod", project.mod_id, "--all", "--output", file("src/generated/resources/").getAbsolutePath(), "--existing", file("src/main/resources/").getAbsolutePath(), "--existing-mod", "blueprint")
+        }
+    }
+
+    mods {
+        cakeworks {
+            sourceSet sourceSets.main
+        }
+    }
+
+    parchment {
+        minecraftVersion = project.minecraft_version
+        mappingsVersion = project.parchment
+    }
+}
+
+sourceSets.main.resources {
+    srcDir "src/generated/resources"
+}
+
+repositories {
+    maven { url "https://maven.teamabnormals.com/" }
+    maven { url "https://modmaven.dev" }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+dependencies {
+    implementation("com.teamabnormals:blueprint:${project.minecraft_version}-${project.blueprint_version}")
+    implementation "maven.modrinth:neapolitan:${project.neapolitan_version}"
+    implementation "maven.modrinth:gallery:${project.gallery_version}"
+    implementation "maven.modrinth:amendments:${project.amendments_version}"
+    implementation "maven.modrinth:moonlight:${project.moonlight_version}"
+
+    compileOnly 'org.spongepowered:mixin:0.8.7:processor'
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            mod_version      : project.mod_version,
+            minecraft_version: project.minecraft_version,
+            neoforge         : project.neoforge,
+            blueprint_version: project.blueprint_version,
+            neapolitan_version: project.neapolitan_version,
+            mod_id           : project.mod_id,
+            mod_name         : project.mod_name,
+            mod_license      : project.mod_license,
+            modLoader        : project.modLoader,
+            loaderVersion    : project.loaderVersion,
+            license          : project.license,
+            gallery_version  : project.gallery_version,
+            amendments_version : project.amendments_version,
+            moonlight_version : project.moonlight_version
+    ]
+    inputs.properties replaceProperties
+    filesMatching(["META-INF/neoforge.mods.toml"]) {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named("jar", Jar).configure {
+    manifest {
+        attributes([
+                "Specification-Title"     : project.mod_name,
+                "Specification-Vendor"    : "Team Harmony",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.mod_name,
+                "Implementation-Version"  : project.mod_version,
+                "Implementation-Vendor"   : "Team Harmony",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+    from(project.sourceSets.main.resources.srcDirs) {
+        include "mixins.cakeworks.json"
+    }
+    if (file("build/createSrgToMcp/cakeworks.refmap.json").exists()) {
+        from("build/createSrgToMcp") {
+            include "cakeworks.refmap.json"
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            name = "cakeworks"
+            url = "https://github.com/jecauale/Cakeworks"
+            credentials(PasswordCredentials)
+        }
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

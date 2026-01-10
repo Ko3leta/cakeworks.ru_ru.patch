@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neapolitan"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_banana_icing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "cakeworks:banana_icing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "cakeworks:banana_cake"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_banana_icing"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "cakeworks:banana_cake"
+    ]
+  }
+}

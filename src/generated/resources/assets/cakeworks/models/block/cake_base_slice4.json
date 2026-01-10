@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/cake_slice4",
+  "textures": {
+    "bottom": "minecraft:block/cake_bottom",
+    "inside": "cakeworks:block/cake_base_inner",
+    "particle": "cakeworks:block/cake_base_side",
+    "side": "cakeworks:block/cake_base_side",
+    "top": "cakeworks:block/cake_base_top"
+  }
+}

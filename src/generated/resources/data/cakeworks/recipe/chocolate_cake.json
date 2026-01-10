@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neapolitan"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "cakeworks:cake_base"
+    },
+    {
+      "item": "cakeworks:chocolate_icing"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "neapolitan:chocolate_cake"
+  }
+}
