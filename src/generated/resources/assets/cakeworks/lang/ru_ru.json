@@ -1,0 +1,11 @@
+{
+  "block.cakeworks.cake_base": "Бисквит",
+  "item.cakeworks.adzuki_icing": "Адзуковая глазурь",
+  "item.cakeworks.banana_icing": "Банановая глазурь",
+  "item.cakeworks.cake_dough": "Тесто для торта",
+  "item.cakeworks.cake_icing": "Глазурь для торта",
+  "item.cakeworks.chocolate_icing": "Шоколадная глазурь",
+  "item.cakeworks.mint_icing": "Мятная глазурь",
+  "item.cakeworks.strawberry_icing": "Клубничная глазурь",
+  "item.cakeworks.vanilla_icing": "Ванильная глазурь"
+}
